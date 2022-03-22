@@ -1,5 +1,4 @@
-
-import React, {useRef, useCallback} from "react";
+import React, { useRef, useCallback } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -22,122 +21,115 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import Input from '@material-ui/core/Input';
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Input from "@material-ui/core/Input";
 
- 
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  width: '100vw',
-  height: '100vh',
+  width: "100vw",
+  height: "100vh",
 };
 
 const center = {
-  lat: 15.8700 ,
+  lat: 15.87,
   lng: 100.9925,
 };
 
-
 export default function App() {
-    const {isLoaded, loadError} = useLoadScript({
-      googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-      libraries,
-    });
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
 
-    const mapRef = React.useRef();
-    const onMapLoad = React.useCallback((map) => {
-      mapRef.current = map;
-    }, []);
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  }, []);
 
-    const panTo = React.useCallback(({lat, lng}) => {
-      mapRef.current.panTo({lat, lng});
-      mapRef.current.setZoom(14);
-    }, []);
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
+  }, []);
 
-if (loadError) return "Error loading maps";
-if (!isLoaded) return "Loading Maps";
-  
-  
+  if (loadError) return "Error loading maps";
+  if (!isLoaded) return "Loading Maps";
+
   return (
     <div>
-    <h1>Assignment</h1>
+      <h1>Assignment</h1>
 
-    <Search panTo = {panTo} /> 
+      <Search panTo={panTo} />
 
-     <GoogleMap 
-     mapContainerStyle={mapContainerStyle}
-     zoom={8}
-     center={center}
-     onLoad={onMapLoad}
-     ></GoogleMap>
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        zoom={8}
+        center={center}
+        onLoad={onMapLoad}
+      ></GoogleMap>
     </div>
   );
 }
 
-function Search( { panTo }) {
-  const { ready, value, suggestions: {status, data}, setValue, clearSuggestion } = usePlacesAutocomplete({
+function Search({ panTo }) {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestion,
+  } = usePlacesAutocomplete({
     requestOptions: {
-      location: { lat: () => 3.1390 , lng: () => 101.6869 },
+      location: { lat: () => 3.139, lng: () => 101.6869 },
       radius: 200 * 1000,
-    }
+    },
   });
 
   console.log(data);
 
-
-  
-  function geoCode (parameter) {
-    console.log(parameter)
+  function geoCode(parameter) {
+    console.log(parameter);
     getGeocode(parameter)
-  .then((results) => getLatLng(results[0]))
-  .then((latLng) => {
-    const { lat, lng } = latLng;
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => {
+        const { lat, lng } = latLng;
 
-    console.log("Coordinates: ", { lat, lng });
-  })
-  .catch((error) => {
-    console.log("Error: ", error);
-
-    
-  });
-  
+        console.log("Coordinates: ", { lat, lng });
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   }
 
-  
-
-return (
-<div className = "search">
+  return (
+    <div className="search">
       <Autocomplete
         freeSolo
         id="free-solo-2-demo"
         disableClearable
         options={data}
         getOptionLabel={(option) => option.description}
-        getOptionSelected={(option, value) => option.description === value.description}
+        getOptionSelected={(option, value) =>
+          option.description === value.description
+        }
         onChange={(e) => {
           geoCode(e.target.value);
         }}
         renderInput={(params) => (
           <TextField
-          {...params}
+            {...params}
             label="Search input"
             InputProps={{
               ...params.InputProps,
-              type: 'search',
+              type: "search",
             }}
-
             onChange={(e) => {
               setValue(e.target.value);
-            
-            
-            
-            
             }}
           />
         )}
       />
-</div>
-)};
-
+    </div>
+  );
+}
