@@ -1,0 +1,66 @@
+{
+  "env": {
+    "serviceworker": true,
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:react/recommended", "plugin:import/errors", "plugin:import/warnings"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier", "react-hooks"],
+  "rules": {
+    // NO's
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "no-plusplus": [1, { "allowForLoopAfterthoughts": true }],
+
+    // Others
+    "linebreak-style": 0,
+    "import/prefer-default-export": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+
+    // React Hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    // React
+    "react/jsx-uses-vars": "error",
+    "react/jsx-uses-react": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-key": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
+    "react/forbid-prop-types": 0,
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": [1, { "allow": "single-child" }],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}
